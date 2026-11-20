@@ -27,6 +27,23 @@ jobs:
       - name: Extract project
         run: |
           unzip TouchLock-CloudBuild-Project.zip -d extracted
+          
+      - name: Configure JVM targets
+        working-directory: extracted/TouchLock/app
+        run: |
+          cat >> build.gradle.kts <<'EOF'
+
+          android {
+              compileOptions {
+                  sourceCompatibility = JavaVersion.VERSION_17
+                  targetCompatibility = JavaVersion.VERSION_17
+              }
+              kotlinOptions {
+                  jvmTarget = "17"
+              }
+          }
+          EOF
+
 
       - name: Build APK
         working-directory: extracted/TouchLock
